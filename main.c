@@ -76,20 +76,20 @@ int main(int argc, char *argv[])
 	int  *Pacc_raw;
 	int  *Pmag_raw;
 	int  *Pgyr_raw;
-    int  *Ppre_raw;
-    int  *Ptem_raw;
+        int  *Ppre_raw;
+        int  *Ptem_raw;
     
 	int  acc_raw[3];
 	int  mag_raw[3];
 	int  gyr_raw[3];
-    int  pre_raw;
-    int  tem_raw;
+        int  pre_raw;
+        int  tem_raw;
 
 	Pacc_raw = acc_raw;
 	Pmag_raw = mag_raw;
 	Pgyr_raw = gyr_raw;
-    Ppre_raw = &pre_raw;
-    Ptem_raw = &tem_raw;
+        Ppre_raw = &pre_raw;
+        Ptem_raw = &tem_raw;
 
 	float gyroXangle = 0.0;
 	float gyroYangle = 0.0;
@@ -98,8 +98,8 @@ int main(int argc, char *argv[])
 	float AccXangle = 0.0;
 	float CFangleX = 0.0;
 	float CFangleY = 0.0;
-    float pressure = 0.0;
-    float temperature = 0.0;
+        float pressure = 0.0;
+        float temperature = 0.0;
 
 	int startInt  = mymillis();
 	struct  timeval tvBegin, tvEnd,tvDiff;
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
 	signed int gyr_y = 0;
 	signed int gyr_z = 0;
 
-    signal(SIGINT, INThandler);
+        signal(SIGINT, INThandler);
 
 	enableIMU();
 
@@ -125,8 +125,8 @@ int main(int argc, char *argv[])
 	readMAG(Pmag_raw);
 	readACC(Pacc_raw);
 	readGYR(Pgyr_raw);
-    readPRE(Ppre_raw);
-    readTEM(Ptem_raw);
+        readPRE(Ppre_raw);
+        readTEM(Ptem_raw);
 
 
 	// Convert gyro raw to degrees per second
@@ -154,28 +154,28 @@ int main(int argc, char *argv[])
 	if (AccYangle >180)
 		AccYangle -= (float)360.0;
 
-    // Complementary filter used to combine the accelerometer and gyro values
+        // Complementary filter used to combine the accelerometer and gyro values
 	CFangleX=AA*(CFangleX+rate_gyr_x*DT) +(1 - AA) * AccXangle;
 	CFangleY=AA*(CFangleY+rate_gyr_y*DT) +(1 - AA) * AccYangle;
 
-    // Pretty print
+        // Pretty print
 	printf ("   GyroX  %7.3f \t AccXangle \e[m %7.3f \t \033[22;31mCFangleX %7.3f\033[0m\t GyroY  %7.3f \t AccYangle %7.3f \t \033[22;36mCFangleY %7.3f\t\033[0m\n",gyroXangle,AccXangle,CFangleX,gyroYangle,AccYangle,CFangleY);
         
-    // Convert pressure value to millibars (mbar)/hectopascals (hPa)
+        // Convert pressure value to millibars (mbar)/hectopascals (hPa)
 	pressure = (float)pre_raw / 4096;
     
-    printf("pressure= %.6f    ", pressure);
+        printf("pressure= %.6f    ", pressure);
         
-    // Convert temperature in degrees celsius
-    temperature = 42.5 + (float)tem_raw / 480;
+        // Convert temperature in degrees celsius
+        temperature = 42.5 + (float)tem_raw / 480;
     
-    printf("temperature= %.6f\n", temperature);
+        printf("temperature= %.6f\n", temperature);
         
 	// Each loop should be at least 20ms.
-    while(mymillis() - startInt < 20)
-    {
-        usleep(100);
-    }
+        while(mymillis() - startInt < 20)
+        {
+           usleep(100);
+        }
 
 	printf("Loop Time %d\t", mymillis()- startInt);
     }
